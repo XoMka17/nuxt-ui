@@ -3,12 +3,15 @@
 Installation:
 1) npx nuxi@latest init . -t ui
 
-Start app:
+Start the development server on http://localhost:3000:
+0) enter to container
 1) cd nuxt-ui-app
 2) npm run dev
 
 
 
+
+# Old
 # Dockerized Nuxt 3 Starter
 
 Working with Docker containers is a convinient way to seperate local machines ressources and configuration from development environments. This minimal project is a starter for creating dockerized [Nuxt 3](https://github.com/nuxt/framework) applications.

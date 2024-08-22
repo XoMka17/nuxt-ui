@@ -1,5 +1,5 @@
 <template>
-    <UCard class="flex flex-col items-center max-w-44 w-full bg-black/80">
+    <UCard class="flex flex-col items-center max-w-44 bg-black/80">
         <div class="uppercase text-center">
             {{ name }}
         </div>
@@ -11,10 +11,10 @@
             </div>
             <div class="absolute bottom-0 flex flex-row justify-center items-center w-32 h-16 text-2xl text-white">{{ pitch }}°</div>
 
-            <div class="absolute top-1/2 left-1/2 -translate-x-2/4 flex flex-row justify-center items-center gap-2 h-1 opacity-60">
-                <i class="w-5 h-px bg-white"></i>
-                <i class="w-2 h-2 border-2 border-solid border-white rounded-full"></i>
-                <i class="w-5 h-px bg-white"></i>
+            <div class="absolute left-1/2 -translate-x-2/4 flex flex-row justify-center items-center gap-2 h-0 opacity-80" :style="{top: countPositionByPitch() + '%'}">
+                <i class="w-5 h-px bg-red-600"></i>
+                <i class="w-2 h-2 border-2 border-solid border-red-600 rounded-full"></i>
+                <i class="w-5 h-px bg-red-600"></i>
             </div>
 
             <i class="absolute top-1/2 left-0 -translate-y-2/4">
@@ -53,6 +53,26 @@
         data() {
             return {}
         },
-        methods: {}
+        methods: {
+            countPositionByPitch() {
+                var pitch = this.pitch % 360;
+                var topPercent = 50;
+
+                if(pitch < -180) {
+                    topPercent = 100 + ((180 + pitch) / 180 * 50);
+                }
+                else if(pitch < 0) {
+                    topPercent = (180 + pitch) / 180 * 50;
+                }
+                else if(pitch > 180) {
+                    topPercent = (pitch - 180) / 180 * 50;
+                }
+                else {
+                    topPercent = 100 - ((180 - pitch) / 180 * 50);
+                }
+
+                return topPercent;
+            }
+        }
     }
 </script>

@@ -5,16 +5,17 @@
         </div>
 
         <div class="relative w-32 m-3">
-            <div class="w-32" :style="{transform: 'rotate(' + roll + 'deg)'}">
-                <div class="flex flex-row justify-center items-center w-32 h-16 rounded-t-full text-2xl text-white" style="background: #3596D9">{{ roll}}°</div>
-                <div class="flex flex-row justify-center items-center w-32 h-16 rounded-b-full text-2xl text-white" style="background: #A47B57"></div>
+            <div class="relative w-32 h-32 rounded-full overflow-hidden" :style="{transform: 'rotate(' + (roll * -1) + 'deg)', background: '#3596D9'}">
+                <div class="relative z-10 flex flex-row justify-center items-center w-32 h-16 text-2xl text-white">{{ roll}}°</div>
+                <div class="absolute flex flex-row justify-center items-center w-32 text-2xl text-white" :style="countPositionByPitch()" style="background: #A47B57"></div>
             </div>
             <div class="absolute bottom-0 flex flex-row justify-center items-center w-32 h-16 text-2xl text-white">{{ pitch }}°</div>
 
-            <div class="absolute left-1/2 -translate-x-2/4 flex flex-row justify-center items-center gap-2 h-0 opacity-80" :style="{top: countPositionByPitch() + '%'}">
-                <i class="w-5 h-px bg-red-600"></i>
-                <i class="w-2 h-2 border-2 border-solid border-red-600 rounded-full"></i>
-                <i class="w-5 h-px bg-red-600"></i>
+            <!--:style="{top: countPositionByPitch() + '%'}"-->
+            <div class="absolute left-1/2 top-1/2 -translate-x-2/4 flex flex-row justify-center items-center gap-2 h-0 opacity-60">
+                <i class="w-5 h-px bg-white"></i>
+                <i class="w-2 h-2 border-2 border-solid border-white rounded-full"></i>
+                <i class="w-5 h-px bg-white"></i>
             </div>
 
             <i class="absolute top-1/2 left-0 -translate-y-2/4">
@@ -57,20 +58,34 @@
             countPositionByPitch() {
                 var pitch = this.pitch % 360;
                 var topPercent = 50;
+                var bottomPercent = 0;
 
-                if(pitch < -180) {
-                    topPercent = 100 + ((180 + pitch) / 180 * 50);
+                if(pitch < 0) {
+                    pitch += 360;
                 }
-                else if(pitch < 0) {
-                    topPercent = (180 + pitch) / 180 * 50;
+
+                if(pitch > 270) {
+                    topPercent = ((pitch - 270) / 90 * 50);
+                    bottomPercent = 0;
                 }
                 else if(pitch > 180) {
-                    topPercent = (pitch - 180) / 180 * 50;
+                    topPercent = 0;
+                    bottomPercent = 100 - (pitch - 90) / 90 * 50;
+                }
+                else if(pitch > 90) {
+                    topPercent = 0;
+                    bottomPercent = 100 - (pitch - 90) / 90 * 50;
                 }
                 else {
-                    topPercent = 100 - ((180 - pitch) / 180 * 50);
+                    topPercent = 100 - ((90 - pitch) / 90 * 50);
+                    bottomPercent = 0
                 }
 
+                return {
+                    top: topPercent + '%',
+                    bottom: bottomPercent + '%',
+                    background: '#A47B57'
+                };
                 return topPercent;
             }
         }

@@ -6,12 +6,11 @@
 
         <div class="relative w-32 m-3">
             <div class="relative w-32 h-32 rounded-full overflow-hidden" :style="{transform: 'rotate(' + (roll * -1) + 'deg)', background: '#3596D9'}">
-                <div class="relative z-10 flex flex-row justify-center items-center w-32 h-16 text-2xl text-white">{{ roll}}°</div>
+                <div class="relative z-10 flex flex-row justify-center items-center w-32 h-16 text-2xl text-white">{{ rollFormated}}°</div>
                 <div class="absolute flex flex-row justify-center items-center w-32 text-2xl text-white" :style="countPositionByPitch()" style="background: #A47B57"></div>
             </div>
-            <div class="absolute bottom-0 flex flex-row justify-center items-center w-32 h-16 text-2xl text-white">{{ pitch }}°</div>
+            <div class="absolute bottom-0 flex flex-row justify-center items-center w-32 h-16 text-2xl text-white">{{ pitchFormated }}°</div>
 
-            <!--:style="{top: countPositionByPitch() + '%'}"-->
             <div class="absolute left-1/2 top-1/2 -translate-x-2/4 flex flex-row justify-center items-center gap-2 h-0 opacity-60">
                 <i class="w-5 h-px bg-white"></i>
                 <i class="w-2 h-2 border-2 border-solid border-white rounded-full"></i>
@@ -34,11 +33,11 @@
         <div class="w-full flex flex-row justify-center">
             <div class="flex flex-col items-center p-2">
                 <span class="uppercase text-white opacity-50">roll</span>
-                <span class="text-white">{{ roll }}°</span>
+                <span class="text-white">{{ rollFormated }}°</span>
             </div>
             <div class="flex flex-col items-center p-2">
                 <span class="uppercase text-white opacity-50">PITCH</span>
-                <span class="text-white">{{ pitch }}°</span>
+                <span class="text-white">{{ pitchFormated }}°</span>
             </div>
         </div>
     </UCard>
@@ -51,6 +50,15 @@
             'roll',
             'pitch'
         ],
+        setup(props) {
+            const rollFormated = parseFloat(props.roll).toFixed(2);
+            const pitchFormated = parseFloat(props.pitch).toFixed(2);
+
+            return {
+                rollFormated,
+                pitchFormated
+            }
+        },
         data() {
             return {}
         },
@@ -68,10 +76,6 @@
                     topPercent = ((pitch - 270) / 90 * 50);
                     bottomPercent = 0;
                 }
-                else if(pitch > 180) {
-                    topPercent = 0;
-                    bottomPercent = 100 - (pitch - 90) / 90 * 50;
-                }
                 else if(pitch > 90) {
                     topPercent = 0;
                     bottomPercent = 100 - (pitch - 90) / 90 * 50;
@@ -86,7 +90,6 @@
                     bottom: bottomPercent + '%',
                     background: '#A47B57'
                 };
-                return topPercent;
             }
         }
     }

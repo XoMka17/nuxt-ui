@@ -1,7 +1,7 @@
 <template>
     <UContainer>
         <div class="flex flex-row gap-8 flex-wrap mt-10">
-            <WidgetGyroscope name="Attitude" roll="-12" pitch="0"/>
+            <WidgetGyroscope name="Attitude" roll="-40" pitch="0"/>
             <WidgetGyroscope name="Attitude" roll="-12" pitch="45"/>
             <WidgetGyroscope name="Attitude" roll="-12" pitch="90"/>
 
